@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use backend\models\Auth;
+use backend\models\Band;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\UserSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -67,7 +68,16 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'auth_key',
             // 'password_hash',
             // 'password_reset_token',
-             'status',
+            [
+                'attribute' => 'status',
+                'content' =>function($model){
+                    $result = Band::find()->where(['status'=>$model->status])->one();
+                    return $result->description;
+                },
+                'headerOptions' => [
+                    'style' => 'width: 100px; text-align:center'
+                ]
+            ],
             [
                 'attribute' => 'created_at',
                 'content' =>function($model){

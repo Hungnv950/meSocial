@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'css/style.css',
     ];
     public $js = [
+//        'js/jquery-1.11.1.min.js',
         'js/owl.carousel.js',
         'js/nav-menu.js',
         'js/style-main.js',

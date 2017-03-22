@@ -94,10 +94,10 @@ AppAsset::register($this);
                                 <div class="nav-container">
                                     <ul class="nav-menu menu">
                                         <li class="menu-item active">
-                                            <a href="<?php Url::home()?>" class="menu-link">Trang chủ</a>
+                                            <a href="<?php Url::home()?>" class="menu-link">Tôi</a>
                                         </li>
                                         <li class="menu-item has-dropdown">
-                                            <a href="#" class="menu-link ">Giới thiệu</a>
+                                            <a href="#" class="menu-link ">Sống mỗi ngày</a>
                                             <ul class="nav-dropdown menu clearfix">
                                                 <li class="menu-item">
                                                     <a href="#" class="menu-link">Thị trường</a>
@@ -108,7 +108,7 @@ AppAsset::register($this);
                                             </ul>
                                         </li>
                                         <li class="menu-item">
-                                            <a href="#" class="menu-link">Sản phẩm</a>
+                                            <a href="#" class="menu-link">HHC - HNUE</a>
                                         </li>
                                         <li class="menu-item">
                                             <a href="" class="menu-link">Tư vấn</a>
@@ -130,7 +130,7 @@ AppAsset::register($this);
                 </form>
                 <div class="col-md-4 col-sm-2 hidden-xs">
                     <ul class="list-register pull-right">
-                        <li><a href="" title=""><span class="hidden-sm">Đăng nhập</span><i
+                        <li><a href="<?php echo Url::toRoute('/site/login',true)?>" title=""><span class="hidden-sm">Đăng nhập</span><i
                                         class="fa fa-user visible-sm" aria-hidden="true"></i></i></a></li>
                         <li>
                             <a href="" title="">

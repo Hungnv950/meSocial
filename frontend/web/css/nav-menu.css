@@ -164,7 +164,7 @@
 
 .nav-dropdown {
     display: none;
-    background:#0fad63;
+    background:#eee;
 }
 
 .has-dropdown.is-active > .nav-dropdown {

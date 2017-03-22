@@ -1,5 +1,5 @@
 /**
- * Created by haiye_000 on 22-Mar-17.
+ * Created by haiye_000 on 23-Mar-17.
  */
 $(document).ready(function () {
     $(".slider-main").owlCarousel({

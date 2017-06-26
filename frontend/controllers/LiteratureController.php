@@ -3,31 +3,18 @@
 namespace frontend\controllers;
 
 use Yii;
-use backend\models\Literature;
-use backend\models\LiteratureSearch;
+use common\models\Literature;
+use common\models\LiteratureSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\web\UploadedFile;
 /**
  * LiteratureController implements the CRUD actions for Literature model.
  */
-class LiteratureController extends Controller
+class LiteratureController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Literature models.
@@ -35,11 +22,8 @@ class LiteratureController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new LiteratureSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $dataProvider = Literature::find()->orderBy(['id'=>SORT_DESC])->asArray()->all();
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -51,8 +35,10 @@ class LiteratureController extends Controller
      */
     public function actionView($id)
     {
+        $dataProviderAll = Literature::find()->orderBy(['id'=>SORT_DESC])->asArray()->all();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'dataProvider' => $this->findModel($id),
+            'dataProviderAll' =>$dataProviderAll
         ]);
     }
 
@@ -64,9 +50,23 @@ class LiteratureController extends Controller
     public function actionCreate()
     {
         $model = new Literature();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if ($model->file) {
+                $model->file->saveAs('../../uploads/imgs/'.$model->file->name);
+                $model->img = $model->file->name;
+            }
+            $model->created_at = time();
+            $model->user_create = Yii::$app->user->id;
+            if ($model->save(false)) {
+                Yii::$app->session->addFlash('success', 'Thêm thành công');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->addFlash('danger', 'Thêm thất bại');
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -84,8 +84,22 @@ class LiteratureController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            if ($model->file) {
+                $model->file->saveAs('../../uploads/imgs/'.$model->file->name);
+                $model->img = $model->file->name;
+            }
+            $model->updated_at = time();
+            if ($model->save(false)) {
+                Yii::$app->session->addFlash('success', 'Cập nhật thành công');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->addFlash('danger', 'Cập nhật thất bại');
+                return $this->render('update', [
+                    'model' => $model,
+                ]);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,

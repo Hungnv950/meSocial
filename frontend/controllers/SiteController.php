@@ -1,7 +1,8 @@
 <?php
 namespace frontend\controllers;
 
-use backend\models\Auth;
+use common\models\Auth;
+use common\models\Literature;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -13,7 +14,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-use backend\models\User;
+use common\models\User;
 
 /**
  * Site controller
@@ -80,8 +81,7 @@ class SiteController extends Controller
     {
         // Lấy thông tin người dùng từ fb
         $attributes = $client->getUserAttributes();
-        $user = User::find()->where(['=','login_auth',$attributes['id']])->one();
-        //  var_dump($user);die;
+        $user = User::find()->where(['=','username',$attributes['id'].'@facebook.com'])->one();
 
         //Nếu người dùng tồn tại với id thì login
         if(!empty($user['id'])){
@@ -91,27 +91,15 @@ class SiteController extends Controller
         {
             //Khởi tạo user mới, gán dữ liệu từ fb vào $model
             $model = new User();
-            $auth = new Auth();
-            $model->username = $attributes['name'];
+            $model->username = $attributes['id'].'@facebook.com';
             $model->full_name = $attributes['first_name'].' '.$attributes['last_name'];;
-            $model->login_auth = $attributes['id'];
             $model->email = $attributes['id'].'@facebook.com';
             $model->password = md5($attributes['id']);
             $model->phone_number = 'null';
             $model->avatar = 'guest.png';
-//            $model->posiston = "0";
-//            var_dump($model);die;
             $model->generateAuthKey();
 
             $model->save(false);
-            $auth->user_id = $model->id;
-            $auth->source = $client->apiBaseUrl;
-            $auth->source_id = $attributes['id'];
-            $fb = Auth::find()->where(['=', 'user_id', $auth->user_id])->one();
-            if (empty($fb)) {
-                $auth->save(false);
-            }
-
             Yii::$app->getUser()->login($model);
         }
     }
@@ -123,7 +111,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $dataProvider = Literature::find()->orderBy(['id'=>SORT_DESC])->asArray()->all();
+//        if (!Yii::$app->user->isGuest ){
+//            $userid = Yii::$app->user->identity->id;
+//            $dataProvider = Literature::find()
+//                ->where(['=','user_create', $userid ])
+//                ->orderBy(['id'=>SORT_DESC])
+//                ->asArray()->all();
+//        }
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**

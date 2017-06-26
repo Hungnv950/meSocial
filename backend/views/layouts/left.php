@@ -14,15 +14,11 @@ use yii\bootstrap\Nav;
                 'items' => [
                     [
                         'label' => '<span class="glyphicon glyphicon-asterisk"></span> Admin', 'url' => ['/admin'],
-                        'visible' => Yii::$app->user->can('Admin'),
+                        'visible' => Yii::$app->user->can('admin'),
                     ],
                     [
-                        'label' => '<span class="glyphicon glyphicon-remove"></span> Band', 'url' => ['/band'],
-                        'visible' => Yii::$app->user->can('Admin'),
-                    ],
-                    [
-                        'label' => '<span class="glyphicon glyphicon-user"></span> User', 'url' => ['/user'],
-                        'visible' => Yii::$app->user->can('userManagerment'),
+                        'label' => '<span class="glyphicon glyphicon-user"></span> User', 'url' => ['/user/admin'],
+                        'visible' => Yii::$app->user->can('admin'),
                     ],
                     [
                         'label' => '<span class="glyphicon glyphicon-pencil"></span> Literature', 'url' => ['/literature']

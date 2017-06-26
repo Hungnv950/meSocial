@@ -1,43 +1,83 @@
 <?php
+$this->title = $dataProvider['title'];
+use yii\helpers\Url;
 
-use yii\helpers\Html;
-use yii\widgets\DetailView;
-
-/* @var $this yii\web\View */
-/* @var $model backend\models\Literature */
-
-$this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Literatures'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="literature-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="col-md-8">
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2>
+                    <a href="<?php echo Url::toRoute('/literature/view?id=' . $dataProvider['id'], true) ?>"><?php echo $dataProvider['title'] ?></a>
+                </h2>
+                <p><?php echo $dataProvider['description'] ?></p>
+            </div>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+            <div class="meta">
+                <a href="<?php $dataProvider['user_create'] ?>" class="author">
+                    <img src="/<?php echo Yii::getAlias('@images') . "/" . $dataProvider['img'] ?>" alt=""/>
+                </a>
+                <h5><?php echo \frontend\helper\FrontEndHelper::getUserName($dataProvider['user_create']) ?></h5>
+                <time class="published" datetime="<?php echo date('d-m-Y ', $dataProvider['created_at']) ?>">
+                    <?php echo date('d-m-Y ', $dataProvider['created_at']) ?>
+                </time>
+                <h5><a href="<?php echo Url::toRoute('/literature/update?id=' . $dataProvider['id'], true) ?>"><span
+                                class="glyphicon glyphicon-edit
+"></span>Chỉnh sửa</a></h5>
+            </div>
+        </header>
+        <a href="<?php echo Url::toRoute('/literature/view?id=' . $dataProvider['id'], true) ?>" class="image featured"><img
+                    src="/<?php echo Yii::getAlias('@images') . "/" . $dataProvider['img'] ?>" alt=""/></a>
+        <p>
+            <?php echo $dataProvider['content'] ?>
+        </p>
+        <footer>
+            <ul class="stats">
+                <li><a href="#">General</a></li>
+                <li><a href="#" class="icon fa-heart">28</a></li>
+                <li><a href="#" class="icon fa-comment">128</a></li>
+            </ul>
+        </footer>
+    </article>
+</div>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'title',
-            'img',
-            'description',
-            'content:ntext',
-            'view',
-            'type',
-            'created_at',
-            'user_id',
-        ],
-    ]) ?>
-
+<div class="col-md-offset-1 col-md-3">
+    <?php
+    foreach ($dataProviderAll as $item => $value) {
+        $user_create_id = $value['user_create'];
+        $user_create = \frontend\helper\FrontEndHelper::getUserName($user_create_id);
+        ?>
+        <section>
+            <ul class="posts">
+                <li>
+                    <article>
+                        <header>
+                            <h3>
+                                <a href="<?php echo Url::toRoute('/literature/view?id=' . $value['id'], true) ?>"> <?php echo $value['title'] ?></a>
+                            </h3>
+                            <time class="published"
+                                  datetime="<?php echo date('d-m-Y ', $value['created_at']) ?><"><?php echo date('d-m-Y ', $value['created_at']) ?>
+                            </time>
+                            <h5> <?php  echo $user_create?></h5>
+                        </header>
+                        <a href="<?php echo Url::toRoute('/literature/view?id=' . $value['id'], true) ?>" class="image"><img
+                                    src="/<?php echo Yii::getAlias('@images') . "/" . $value['img'] ?>" alt=""/></a>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <header>
+                            <p>
+                                <a href="<?php echo Url::toRoute('/literature/view?id=' . $value['id'], true) ?>"><?php echo $value['description'] ?></a>
+                            </p>
+                        </header>
+                    </article>
+                </li>
+            </ul>
+            <hr>
+        </section>
+        <?php
+    }
+    ?>
 </div>

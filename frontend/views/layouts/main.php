@@ -10,8 +10,15 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use common\models\User;
+use frontend\helper\FrontEndHelper;
 
 AppAsset::register($this);
+$homeUrl = str_replace('/frontend/web', '', Yii::$app->urlManager->baseUrl);
+if (!Yii::$app->user->isGuest){
+    $user_id = Yii::$app->user->identity->getId();
+    $username = FrontEndHelper::getUserName($user_id);
+}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -21,6 +28,12 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
+    <script>
+        function homeUrl() {
+            return '<?php  echo $homeUrl?>';
+        }
+    </script>
+
     <?php $this->head() ?>
 </head>
 <body>
@@ -45,8 +58,10 @@ AppAsset::register($this);
                         <li><a href="" title="">Tư vấn</a></li>
                         <li><a href="" title="">Hỏi đáp</a></li>
                         <li><a href="" title="">Điều lệ</a></li>
-                        <li class="language language-2"><a href="" title=""><img src="<?php echo Url::to('@images',true)?>/en.png" alt=""/></a></li>
-                        <li class="language"><a href="" title=""><img src="<?php echo Url::to('@images',true)?>/vn.png" alt=""/></a></li>
+                        <li class="language language-2"><a href="" title=""><img
+                                        src="<?php echo Url::to('@images', true) ?>/en.png" alt=""/></a></li>
+                        <li class="language"><a href="" title=""><img
+                                        src="<?php echo Url::to('@images', true) ?>/vn.png" alt=""/></a></li>
                     </ul>
                     <ul class="list-register pull-right visible-xs">
                         <li><a href=""><i class="fa fa-user visible-sx" aria-hidden="true"></i></a></li>
@@ -71,7 +86,8 @@ AppAsset::register($this);
                         <span class="line line-3"></span>
                     </div>
                 </button>
-                <a href="" title=""><img src="<?php echo Url::to('@images',true)?>/s.png" alt="" style="width: 90px"/></a>
+                <a href="<?php echo Yii::$app->homeUrl; ?>" title="Trang chủ"><img
+                            src="<?php echo Url::to('@images', true) ?>/s.png" alt="" style="width: 90px"/></a>
                 <a href="" title="" class="pull-right search-top visible-xs"><i class="fa fa-search"
                                                                                 aria-hidden="true"></i></a>
             </div>
@@ -82,65 +98,99 @@ AppAsset::register($this);
         <div class="container">
             <!-- /menu_mb -->
             <div class="row">
-                <div class="col-md-2 col-sm-2  hidden-xs">
+                <div class="col-md-1 col-sm-2  hidden-xs">
                     <div class="logo-pc">
-                        <a href="" title=""><img src="<?php echo Url::to('@images',true)?>/s.png" alt="" style="width: 70px"/></a>
+                        <a href="<?php echo Yii::$app->homeUrl; ?>" title="Trang chủ"><img
+                                    src="<?php echo Url::to('@images', true) ?>/s.png" alt="" style="width: 70px"/></a>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-8 col-xs-12">
+                <div class="col-md-8 col-sm-7 col-xs-12">
                     <div class="menu_main">
                         <nav class="nav is-fixed" role="navigation">
                             <div class="wrapper wrapper-flush">
                                 <div class="nav-container">
-                                    <ul class="nav-menu menu">
+                                    <ul class="nav nav-menu menu">
                                         <li class="menu-item active">
-                                            <a href="<?php Url::home()?>" class="menu-link">Tôi</a>
+                                            <a href="<?php echo Url::home() ?>" class="menu-link">Tôi</a>
                                         </li>
                                         <li class="menu-item has-dropdown">
-                                            <a href="#" class="menu-link ">Sống mỗi ngày</a>
+                                            <a href="<?php echo Url::toRoute('/literature', true) ?>" class="menu-link">Chúng ta</a>
+                                        </li>
+                                        <li class="menu-item has-dropdown">
+                                            <a href="<?php echo Url::toRoute('/literature/create', true) ?>"
+                                               class="menu-link">Chia sẻ</a>
+                                        </li>
+                                        <li class="menu-item has-dropdown">
+                                            <a href="#" title="Câu lạc bộ Chữ Sư phạm" class="menu-link">HHC - HNUE</a>
                                             <ul class="nav-dropdown menu clearfix">
                                                 <li class="menu-item">
-                                                    <a href="#" class="menu-link">Thị trường</a>
+                                                    <a href="#" class="menu-link">Giới thiệu</a>
                                                 </li>
                                                 <li class="menu-item">
-                                                    <a href="#" class="menu-link">Khuyến mãi hè</a>
+                                                    <a href="#" class="menu-link">Kinh nghiệm viết</a>
+                                                </li>
+                                                <li class="menu-item">
+                                                    <a href="#" class="menu-link">Hoạt động</a>
+                                                </li>
+                                                <li class="menu-item">
+                                                    <a href="#" class="menu-link">Sinh hoạt hàng tuần</a>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li class="menu-item">
-                                            <a href="#" class="menu-link">HHC - HNUE</a>
+                                            <a href="" class="menu-link">Ngoại ngữ</a>
                                         </li>
                                         <li class="menu-item">
                                             <a href="" class="menu-link">Tư vấn</a>
                                         </li>
-                                        <li class="menu-item "><a href="" class="menu-link">Blog</a></li>
-                                        <li class="menu-item search-top hidden-xs"><a href="#" class="menu-link"><i
-                                                        class="fa fa-search" aria-hidden="true"></i></a></li>
+                                        <!--                                        <li class="menu-item "><a href="" class="menu-link">Blog</a></li>-->
+                                        <li class="menu-item ">
+                                            <form action="" style="    margin: 0px;    padding: 8px 0 0 35px;">
+                                                <input type="text" placeholder="Tìm kiếm">
+                                            </form>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </div>
                         </nav>
                     </div>
                 </div>
-                <form action="" class="form_search" style="display:none">
-                    <div class="form-group pull-right">
-                        <input type="text" class="input-sm input-search" placeholder="Tìm kiếm">
-                        <button type="button" class="btn button-search">Tìm kiếm</button>
-                    </div>
-                </form>
-                <div class="col-md-4 col-sm-2 hidden-xs">
-                    <ul class="list-register pull-right">
-                        <li><a href="<?php echo Url::toRoute('/site/login',true)?>" title=""><span class="hidden-sm">Đăng nhập</span><i
-                                        class="fa fa-user visible-sm" aria-hidden="true"></i></i></a></li>
-                        <li>
-                            <a href="" title="">
-                                <span class="hidden-sm">Giỏ Hàng/0.00ZL</span>
-                                <span class="icon-cart-2"></span>
-                                <span class="icon-cart">0</span>
-
-                            </a>
-                        </li>
-                    </ul>
+                <div class="col-md-3 col-sm-2 hidden-xs">
+                    <?php
+                    if (Yii::$app->user->isGuest) {
+                        ?>
+                        <ul class="list-register pull-right">
+                            <li><a href="<?php echo Url::toRoute('/user/registration/register', true) ?>" title=""
+                                   class="button small"><span
+                                            class="hidden-sm">Đăng kí</span><i
+                                            class="fa fa-user visible-sm" aria-hidden="true"></i></i></a></li>
+                            <li class="drop-down menu ">
+                                <a href="<?php echo Url::toRoute('/user/security/login', true) ?>" title="" class="button small">
+                                    <span class="hidden-sm">Đăng nhập</span>
+                                </a>
+                            </li>
+                            <li class="drop-down menu ">
+                                <a href="<?php echo Url::toRoute('/site/auth?authclient=facebook', true) ?>" title="" class="button small">
+                                    <span class="hidden-sm">FB</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <?php
+                    } else {
+                        $user = User::find()->where(['id' => Yii::$app->user->id])->one();
+                        ?>
+                        <ul class="list-register pull-right dropdown">
+                            <li>
+                                <a href="<?php echo Url::toRoute('/user/settings/profile', true) ?>" data-method="post" class="button small">>
+                                    <?php echo $username ?>
+                                </a>
+                            </li>
+                            <li><a href="<?php echo Url::toRoute('/user/security/logout', true) ?>" data-method="post" class="button small">Đăng xuất</a></li>
+                        </ul>
+                        <?php
+                    }
+                    ?>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -160,12 +210,33 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Maru Bow <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right"><a href="mailto:maruk58uet@gmail.com?subject=meSocial+support">maruk58uet@gmail.com</a>
+        </p>
     </div>
 </footer>
 <?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>
+
+<?php
+$js = <<<JS
+
+JS;
+
+?>
+<style>
+    .pagination > li > a, .pagination > li > span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 4.428571;
+        color: #337ab7;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+</style>

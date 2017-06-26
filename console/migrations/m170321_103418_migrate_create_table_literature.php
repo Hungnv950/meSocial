@@ -20,13 +20,14 @@ class m170321_103418_migrate_create_table_literature extends Migration
             'content'=>$this->text(),
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'view' =>$this->integer(11)->defaultValue(0),
-            'type' => $this->string(32)->notNull(),
+            'type' => $this->string(32)->defaultValue('me'),
             'created_at' => $this->integer(11)->notNull(),
             'updated_at' => $this->integer(),
-            'user_create' => $this->integer()->notNull(),
+            'user_create' => $this->integer(),
             'user_update' => $this->integer(),
 
+            'view' =>$this->integer(11)->defaultValue(0),
+            'like' => $this->integer()->defaultValue(0),
             'comments'=> $this->text()
         ], $tableOptions);
     }

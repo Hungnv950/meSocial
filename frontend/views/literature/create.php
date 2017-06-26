@@ -7,8 +7,6 @@ use yii\helpers\Html;
 /* @var $model backend\models\Literature */
 
 $this->title = Yii::t('app', 'Create Literature');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Literatures'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="literature-create">
 

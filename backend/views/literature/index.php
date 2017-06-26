@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-use backend\models\User;
+use common\models\User;
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\LiteratureSearch */
+/* @var $searchModel common\models\LiteratureSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Literatures');
@@ -23,8 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             ['class' => 'yii\grid\SerialColumn',
                 'header' => 'STT',
                 'headerOptions' => [
@@ -32,15 +30,18 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ],
             'title',
+            [
+                'attribute' => 'img',
+                'format' => 'html',
+                'value' => function ($data) {
+                    return Html::img(Yii::$app->params['homeUrl'].'/uploads/imgs/'. $data['img'],
+                        ['width' => '200px']);
+                },
+            ],
 //            [
-//                'attribute' => 'img',
-//                'format' => 'html',
-//                'value' => function ($data) {
-//                    return Html::img(Yii::$app->params['homeUrl'].'/uploads/imgs/'. $data['img'],
-//                        ['width' => '200px']);
-//                },
+//                'attribute' => 'description',
+//                'contentOptions' => ['style' => 'width:150px;'],
 //            ],
-            'description',
 //            [
 //                'attribute' => 'content',
 //                'format' => 'html',
@@ -63,21 +64,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     'style' => 'width: 100px; text-align:center'
                 ]
             ],
-            [
-                'attribute' => 'user_update',
-                'content' =>function($model){
-                    $user =  User::find()->where(['id'=>$model->user_update])->one();
-                    if (!empty($user)) {
-                        return $user->username;
-                    } else {
-                        return null;
-                    }
-
-                },
-                'headerOptions' => [
-                    'style' => 'width: 100px; text-align:center'
-                ]
-            ],
+//            [
+//                'attribute' => 'user_update',
+//                'content' =>function($model){
+//                    $user =  User::find()->where(['id'=>$model->user_update])->one();
+//                    if (!empty($user)) {
+//                        return $user->username;
+//                    } else {
+//                        return null;
+//                    }
+//
+//                },
+//                'headerOptions' => [
+//                    'style' => 'width: 100px; text-align:center'
+//                ]
+//            ],
             [
                 'attribute' => 'created_at',
                 'content' =>function($model){
@@ -87,15 +88,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     'style' => 'width: 100px; text-align:center'
                 ]
             ],
-            [
-                'attribute' => 'updated_at',
-                'content' =>function($model){
-                    return date('H:i - d/m/y', $model->updated_at);
-                },
-                'headerOptions' => [
-                    'style' => 'width: 100px; text-align:center'
-                ]
-            ],
+//            [
+//                'attribute' => 'updated_at',
+//                'content' =>function($model){
+//                    return date('H:i - d/m/y', $model->updated_at);
+//                },
+//                'headerOptions' => [
+//                    'style' => 'width: 100px; text-align:center'
+//                ]
+//            ],
             // 'created_at',
             // 'comments:ntext',
 

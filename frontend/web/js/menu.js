@@ -6,8 +6,6 @@ $(document).ready(function () {
         navigation: false,
         items: 1,
         itemsCustom: false,
-//            navigationText : ['<i class="fa fa-chevron-left" aria-hidden="true"></i>','<i class="fa fa-chevron-right" aria-hidden="true"></i>'],
-
         pagination: true,
         itemsDesktop: [1199, 1],
         itemsDesktopSmall: [979, 1],

@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Literature;
-use backend\models\LiteratureSearch;
+use common\models\Literature;
+use common\models\LiteratureSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

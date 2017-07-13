@@ -145,9 +145,6 @@ if (!Yii::$app->user->isGuest){
                                         </li>
                                         <!--                                        <li class="menu-item "><a href="" class="menu-link">Blog</a></li>-->
                                         <li class="menu-item ">
-                                            <form action="" style="    margin: 0px;    padding: 8px 0 0 35px;">
-                                                <input type="text" placeholder="Tìm kiếm">
-                                            </form>
                                         </li>
 
                                     </ul>

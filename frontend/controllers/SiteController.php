@@ -112,13 +112,14 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $dataProvider = Literature::find()->orderBy(['id'=>SORT_DESC])->asArray()->all();
-//        if (!Yii::$app->user->isGuest ){
-//            $userid = Yii::$app->user->identity->id;
-//            $dataProvider = Literature::find()
-//                ->where(['=','user_create', $userid ])
-//                ->orderBy(['id'=>SORT_DESC])
-//                ->asArray()->all();
-//        }
+        if (!Yii::$app->user->isGuest ){
+            $userid = Yii::$app->user->identity->id;
+            $dataProvider = Literature::find()
+                ->where(['=','user_create', $userid ])
+                ->orderBy(['id'=>SORT_DESC])
+                ->asArray()->all();
+        }
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

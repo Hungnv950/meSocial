@@ -19,16 +19,22 @@ class AppAsset extends AssetBundle
          * */
         'css/font-awesome.min.css',
         'css/owl.carousel.css',
-        'css/owl.theme.css',
-        'css/resetDefalt.css',
-        'css/setmedia.css',
         'css/nav-menu.css',
         'css/style.css',
 
         /*
          * index
          * */
-        'css/main.css',
+        'css/app.css',
+        'css/style_index.css',
+        'css/line-icons.css',
+        'css/blocks.css',
+        'css/ie8.css',
+        'css/owl.carousel.css',
+        'css/plugins.css',
+        'css/style-switcher.css',
+
+
         /*
          * single page
          * */

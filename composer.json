@@ -23,7 +23,8 @@
         "dmstr/yii2-adminlte-asset": "2.0",
         "yiisoft/yii2-httpclient": "~2.0.0",
         "kartik-v/yii2-widget-fileinput": "@dev",
-        "yiisoft/yii2-authclient": "*"
+        "yiisoft/yii2-authclient": "*",
+        "fproject/yii2-restx": "*"
 
     },
     "require-dev": {

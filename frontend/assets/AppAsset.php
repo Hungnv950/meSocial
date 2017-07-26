@@ -15,6 +15,11 @@ class AppAsset extends AssetBundle
         'css/site.css',
 
         /*
+         * btn css
+         * */
+        'css/bttn.min.css',
+
+        /*
          * Header and footer
          * */
         'css/font-awesome.min.css',
